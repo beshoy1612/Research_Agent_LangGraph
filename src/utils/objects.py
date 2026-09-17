@@ -10,3 +10,6 @@ class Analyst(BaseModel):
     @property
     def persona(self)->str:
         return f"Name: {self.name}\n Role: {self.role}\n Description :{self.description}\n Affiliation: {self.affiliation}"
+
+class Perspective(BaseModel):
+    analysts : List[Analyst] =Field(description="Comperhensive list of analysis with thier roles and affiliation")
