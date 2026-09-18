@@ -1,15 +1,15 @@
 from dotenv import load_dotenv
 from .objects import Analyst,Perspective
-from .states import GenerateAnalystState
+from .states import GenerateAnalystState,InterviewState
 from .models import llm
 from langchain.messages import SystemMessage,HumanMessage
-from .prompts import analyst_instructions
+from .prompts import analyst_instructions,question_instructions
 from langgraph.types import interrupt
 
 load_dotenv()
 
 #nodes 
-def create_analysts(state:GenerateAnalystState): 
+def create_analysts(state: GenerateAnalystState): 
     """Create analysts"""
     
     topic = state["topic"]
@@ -29,8 +29,7 @@ def create_analysts(state:GenerateAnalystState):
     # its only update this part in GenerateAnalystState and everything will be the same 
     return {"analyst" : analyst.analysts}
 
-
-def human_feedback(state:GenerateAnalystState):
+def human_feedback(state: GenerateAnalystState):
     """this is where human gives feedback about the analysis given"""
 
     feedback= interrupt({
@@ -58,3 +57,19 @@ def human_feedback(state:GenerateAnalystState):
     
     return {"human_analyst_feedback":None}
 
+def generate_question(state: InterviewState):
+    """node to generate the question"""
+
+    analyst = state["analyst"]
+
+    if isinstance(analyst,dict):
+        analyst = Analyst.model_validate(analyst)
+
+    # we need to understand this later
+    messages = state["messages"]
+
+    #generate question 
+    system_message = question_instructions.format(goals = analyst.persona)
+    question = llm.invoke([SystemMessage(content=system_message)] + messages)
+    
+    return {"messages" : [question]}
