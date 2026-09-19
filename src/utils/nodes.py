@@ -6,7 +6,7 @@ from .models import llm
 from langchain.messages import SystemMessage,HumanMessage
 from .prompts import analyst_instructions,question_instructions,search_instructions,answer_instructions,section_writer_instructions
 from langgraph.types import interrupt
-
+from langchain_core.messages import get_buffer_string
 load_dotenv()
 
 #nodes 
@@ -152,3 +152,28 @@ def generate_answer(state:InterviewState):
 
     #append state 
     return {"message":[answer]}
+
+def save_interview(state:InterviewState):
+    """save interviews"""
+
+    message = state["messages"]
+
+    interview =  get_buffer_string(message)
+
+    return {"interview": interview}
+
+def write_section(state:InterviewState):
+    """Node to answer a question"""
+
+    interview = state["interview"]
+    context = state["context"]
+    analyst = state["analyst"]
+
+    if isinstance(analyst,dict):
+        analyst = Analyst.model_validate(analyst)
+
+    system_message = section_writer_instructions.format(focus = analyst.description)
+
+    section = llm.invoke([SystemMessage(content=system_message)] + [HumanMessage(content=f"Use This ource To Write Your Section :{context}")])
+
+    return {"sections":section.content}
