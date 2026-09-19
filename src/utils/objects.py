@@ -13,3 +13,7 @@ class Analyst(BaseModel):
 
 class Perspective(BaseModel):
     analysts : List[Analyst] =Field(description="Comperhensive list of analysis with thier roles and affiliation")
+
+
+class SearchQuery(BaseModel):
+    search_query: str =Field(description="Search query for the retrival")

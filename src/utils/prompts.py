@@ -1,31 +1,46 @@
-
 analyst_instructions="\n".join([
-"You are tasked with creating a set of AI analyst personas. Follow these instructions carefully:",
+    "You are tasked with creating a set of AI analyst personas. Follow these instructions carefully:",
 
-"1. First, review the research topic:{topic}",
+    "1. First, review the research topic:{topic}",
 
-"2. Examine any editorial feedback that has been optionally provided to guide creation of the analysts:{human_analyst_feedback}",
+    "2. Examine any editorial feedback that has been optionally provided to guide creation of the analysts:{human_analyst_feedback}",
 
-"3. Determine the most interesting themes based upon documents and / or feedback above.",
+    "3. Determine the most interesting themes based upon documents and / or feedback above.",
 
-"4. Pick the top {max_analysts} themes.",
+    "4. Pick the top {max_analysts} themes.",
 
-"5. Assign one analyst to each theme."])
+    "5. Assign one analyst to each theme."])
+
 
 question_instructions ="\n".join([ 
-"You are an analyst tasked with interviewing an expert to learn about a specific topic.", 
+    "You are an analyst tasked with interviewing an expert to learn about a specific topic.", 
 
-"Your goal is boil down to interesting and specific insights related to your topic.",
+    "Your goal is boil down to interesting and specific insights related to your topic.",
 
-"1. Interesting: Insights that people will find surprising or non-obvious.",
+    "1. Interesting: Insights that people will find surprising or non-obvious.",
 
-"2. Specific: Insights that avoid generalities and include specific examples from the expert.",
+    "2. Specific: Insights that avoid generalities and include specific examples from the expert.",
 
-"Here is your topic of focus and set of goals: {goals}",  
+    "Here is your topic of focus and set of goals: {goals}",  
 
-"Continue to ask questions to drill down and refine your understanding of the topic.",
+    "Continue to ask questions to drill down and refine your understanding of the topic.",
 
-'When you are satisfied with your understanding, complete the interview with: "Thank you so much for your help!"',
+    'When you are satisfied with your understanding, complete the interview with: "Thank you so much for your help!"',
 
-"Remember to stay in character throughout your response, reflecting the persona and goals provided to you."
+    "Remember to stay in character throughout your response, reflecting the persona and goals provided to you."
 ])
+
+search_instructions = "\n".join([
+    "You will be given a conversation between an analyst and an expert.",
+
+    "Your goal is to generate a well-structured query for use in retrieva"
+    
+    "l and / or web-search related to the conversation.",
+    
+    "First, analyze the full conversation.",
+    
+    "Pay particular attention to the final question posed by the analyst.",
+    
+    "Convert this final question into a well-structured web search query."
+])
+
